@@ -1,0 +1,27 @@
+name: DevOps CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Recuperer le code source
+        uses: actions/checkout@v4
+
+      - name: Construire l'image Docker
+        run: |
+          docker build \
+            -f docker/Dockerfile \
+            -t devops-web:latest .
+
+      - name: Verifier l'image construite
+        run: docker images devops-web
